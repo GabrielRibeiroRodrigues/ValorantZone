@@ -17,15 +17,16 @@ ul {
   --header-height: 4.5rem;
 
   /* colors */
-  --hue: 159;
-  /* HSL color mode */
-  --base-color: rgb(168, 41, 27);
-  --base-color-second: hsl(var(--hue) 65% 88%);
-  --base-color-alt: rgb(131, 45, 45);
-  --title-color: rgb(201, 201, 201);
-  --text-color: rgb(148, 147, 147);
-  --text-color-light: hsl(0 0% 98%);
-  --body-color: rgb(0, 0, 0);
+  --base-color: #FF4655; /* Valorant Red */
+  --base-color-second: #ff7882; /* Lighter Valorant Red for accents */
+  --base-color-alt: #BD3944; /* Darker Valorant Red */
+  --title-color: #ECE8E1; /* Off-white for titles */
+  --text-color: #B4B4B4; /* Light gray for text */
+  --text-color-light: #FAFAFA; /* Almost white for light text on dark backgrounds */
+  --body-color: #0F1923; /* Dark Valorant Blue/Black */
+  --card-background-color: #1A242D; /* Slightly lighter dark blue for cards */
+  --border-color: #2A343D; /* Border color for elements */
+
 
   /* fonts */
   --title-font-size: 2rem;
@@ -42,18 +43,28 @@ ul {
   z-index: 100;
   width: 100%;
   display: flex;
-  margin-bottom: 2rem;
-  border-bottom: 1px solid #e4e4e4;
+  /* margin-bottom: 2rem; */ /* Removed as main has padding-top now */
+  border-bottom: 1px solid var(--border-color);
   background-color: var(--body-color);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
 }
 
 main {
   margin-top: var(--header-height);
+  padding-top: 2rem; /* Add some padding to the top of the main content */
 }
 
 .logo {
-  font: 700 1.5rem var(--title-font);
+  font: 700 1.75rem var(--title-font); /* Slightly larger logo */
   color: var(--title-color);
+  display: flex; /* For aligning icon and text */
+  align-items: center;
+}
+
+.logo img { /* Style for logo image if it's inside .logo */
+  width: 35px; /* Adjust as needed */
+  height: auto;
+  margin-right: 0.5rem;
 }
 
 .logo span {
@@ -61,7 +72,7 @@ main {
 }
 
 .logo-alt span {
-  color: var(--body-color);
+  color: var(--title-color); /* Ensure footer logo span is also visible */
 }
 
 html {
@@ -73,16 +84,46 @@ body {
   color: var(--text-color);
   background: var(--body-color);
   -webkit-font-smoothing: antialiased;
+  line-height: 1.6; /* Improved line height for readability */
 }
 
-.title {
-  font: 700 1.875rem var(--title-font); /* 1 rem = 16 px */
+.title { /* General title class for sections and cards */
+  font-family: var(--title-font);
+  font-weight: 700;
   color: var(--title-color);
 }
+
+.section-title { /* Specific for main section titles */
+  font-size: var(--title-font-size);
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.card .title { /* Titles within cards */
+  font-size: 1.25rem;
+  margin-bottom: 0.75rem;
+}
+
+.subtitle { /* General subtitle class */
+ font-size: var(--subtitle-font-size);
+ color: var(--text-color);
+ margin-bottom: 1.5rem;
+}
+
+.section-subtitle { /* Specific for main section subtitles */
+  text-align: center;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 3rem;
+}
+
 
 .container {
   margin-left: 1.5rem;
   margin-right: 1.5rem;
+  padding-left: 1rem; /* Add some padding to containers */
+  padding-right: 1rem;
 }
 
 nav {
@@ -91,7 +132,18 @@ nav {
   height: var(--header-height);
   align-items: center;
   width: 100%;
+  padding: 0 1rem; /* Padding for nav content */
 }
+
+.nav-left { /* Container for logo and site name */
+    display: flex;
+    align-items: center;
+}
+
+.nav-left .logo { /* Ensure logo within nav-left is styled correctly */
+    margin-right: 0.5rem; /* Space between logo image and text */
+}
+
 
 .toggle {
   font-size: 1.5rem;
@@ -124,16 +176,36 @@ nav.show .menu {
   top: 0;
   left: 0;
   position: fixed;
+  z-index: 99; /* Below header */
+}
+
+nav ul { /* General styling for nav ul */
+    display: flex;
+    align-items: center;
 }
 
 nav ul li {
   text-align: center;
 }
 
-nav ul li a {
-  transition: color 0.3s;
+nav ul li a { /* This is for the text of the link */
+  transition: color 0.3s ease-in-out;
   position: relative;
+  color: var(--text-color-light);
+  font-weight: 500;
+  padding: 0.5rem 1rem; /* Add padding to nav links for better click area */
+  font-family: var(--body-font); /* Ensure nav links use body font or specific nav font */
+  font-size: 1rem; /* Explicit font size for nav links */
 }
+/* This targets the .title class when used on <a> elements in nav, like <a class="title"> */
+nav ul li a.title {
+    /* Reset some general .title styles if they conflict, or apply specific nav link styles */
+    font-size: 1rem; /* Override general .title size */
+    font-weight: 500; /* Override general .title weight */
+    color: var(--text-color-light); /* Ensure color is appropriate for nav */
+    margin-bottom: 0; /* Remove margin if .title adds it */
+}
+
 
 nav ul li a:hover {
   color: var(--base-color);
@@ -146,18 +218,20 @@ nav ul li a::after {
   background: var(--base-color);
 
   position: absolute;
-  left: 0;
-  bottom: -1rem;
+  left: 50%; /* Start underline from center */
+  transform: translateX(-50%); /* Adjust for centering */
+  bottom: 0rem; /* Adjust underline position */
 
-  transition: 0.2s;
+  transition: width 0.3s ease-in-out;
 }
 
 nav ul li a:hover::after {
-  width: 100%;
+  width: 80%; /* Underline width on hover */
 }
 
 nav.show ul.grid {
-  gap: 4rem;
+  gap: 3rem; /* Adjust gap for shown menu */
+  flex-direction: column; /* Stack links vertically in mobile menu */
 }
 
 nav.show .menu {
@@ -165,32 +239,25 @@ nav.show .menu {
   place-content: center;
 }
 
-nav .menu {
+nav .menu { /* This is the ul element for navigation links */
   opacity: 0;
   visibility: hidden;
 }
 
 img {
-  width: 100%;
+  max-width: 100%; /* Ensure images are responsive */
   height: auto;
+  border-radius: 0.25rem;
+  display: block; /* Remove extra space below images */
 }
 
 .section {
-  padding: 1rem 0;
-  
-}
-
-.section .title {
-  margin-bottom: 1rem;
-}
-
-.section .subtitle {
-  font-size: var(--subtitle-font-size);
+  padding: 4rem 0;
 }
 
 .grid {
   display: grid;
-  gap: 2rem;
+  gap: 2.5rem;
 }
 
 .button {
@@ -198,316 +265,427 @@ img {
   color: var(--text-color-light);
   display: inline-flex;
   align-items:center ;
+  justify-content: center;
   height: 3.5rem;
-  padding: 0 2rem;
+  padding: 0 2.5rem;
   font: 500 1rem var(--body-font);
-  transform: background 0.3s;
-  
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  border: none; /* Remove default border */
 }
 
 .button:hover {
   background: var(--base-color-alt);
+  transform: translateY(-2px);
 }
 
 .divider {
-  height: 1px;
-  background: rgb(255, 48, 25);}
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--base-color), transparent);
+  border: none;
+  margin: 4rem auto; /* Center divider and give it space */
+  width: 80%; /* Make divider not full width */
+}
 
 /* Session Home */
 
-#home .container {
-  margin: 0;
+#home {
+  /* background: url('img/background.jpg') no-repeat center center/cover; */ /* Optional: Add a background image */
+  background-color: var(--body-color); /* Fallback or primary background */
+  color: var(--text-color-light);
+  padding: 4rem 0; /* Adjusted padding */
+  text-align: center; /* Center content by default */
 }
 
-#home .text {
-  margin-left: 1.5rem;
-  margin-right: 1.5rem;
-  text-align: center;
+#home .container {
+  display: grid;
+  grid-template-columns: 1fr; /* Single column for mobile */
+  align-items: center;
+  gap: 2rem;
 }
+
+#home .image {
+  margin-bottom: 1rem;
+  max-width: 100%; /* Full width on mobile */
+}
+#home .image img {
+    max-height: 400px; /* Limit hero image height */
+    object-fit: cover; /* Ensure image covers the area */
+    width: 100%;
+}
+
 
 #home .text h1 {
-  margin-bottom: 1rem;
+  margin-bottom: 1.5rem;
+  font-size: 2.25rem; /* Adjusted heading size */
+  color: var(--title-color);
+  line-height: 1.2;
 }
 
 #home .text p {
   margin-bottom: 2rem;
+  font-size: 1.05rem;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  color: var(--text-color);
 }
 
-#home .image {
-  margin-left: 1.5rem;
-  margin-right: 1.5rem;
-  position: relative;
+#home .ajusteBot{ /* This class seems to wrap the button */
+  margin-top: 1rem; /* Space above the button */
 }
+
 
 /* Session About */
 
 #about {
-  background: rgb(0, 0, 0);
-  
-  
+  background: var(--card-background-color);
+  padding: 4rem 0;
 }
 
 #about .container {
-  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  align-items: center;
+  gap: 3rem;
+}
+
+#about .image img {
+  border: 3px solid var(--base-color);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
 }
 
 #about .text {
-  margin-left: 1.5rem;
-  margin-right: 1.5rem;
-  text-align: justify;
-  
+  text-align: left;
 }
 
-#about .text h1 {
+#about .text .title { /* This is .section-title within #about .text */
+  text-align: left;
   margin-bottom: 1rem;
-  font-size: 1.50rem;
 }
+
 
 #about .text p {
-  margin-bottom: 2rem;
-}
-
-#about .image {
-  margin-left: 1.5rem;
-  margin-right: 1.5rem;
-  position: relative;
-  
-}
-#home .ajusteBot{
-  margin-left: 10rem;
+  margin-bottom: 1.5rem;
+  text-align: justify; /* Justify text for better block appearance */
 }
 
 
-/* Session Services */
+/* Session Cards (Jogadores, Mapas, Orgs) */
 
-.justify-text {
-  text-align: justify;
+.cards-section header { /* Header for card sections like "Melhores Jogadores" */
+    margin-bottom: 3rem;
 }
 
 .card {
-  padding: 3.625rem 2rem;
-  box-shadow: var(--base-color);
-  border-bottom: 0.25rem solid var(--base-color);
-  border-radius: 0.25rem 0.25rem 0 0;
+  background-color: var(--card-background-color);
+  padding: 2rem;
+  border: 1px solid var(--border-color);
+  border-bottom: 0.35rem solid var(--base-color); /* Slightly thicker bottom border */
+  border-radius: 0.5rem;
   text-align: center;
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  display: flex; /* Use flex for card content */
+  flex-direction: column; /* Stack card content vertically */
+  justify-content: space-between; /* Distribute space */
+  height: 100%; /* Make cards in a row equal height if needed by parent grid */
 }
 
-.card i {
-  display: block;
-  margin-bottom: 1.5rem;
-  font-size: 5rem;
-  color: var(--base-color);
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 25px rgba(var(--base-color), 0.2);
 }
 
-.cards.grid {
-  gap: 1.5rem;
+.card .card-image-container { /* Wrapper for card images */
+    margin-bottom: 1.5rem;
+    flex-grow: 0; /* Don't let image container grow */
 }
 
-.card .title {
-  font-size: 1.5rem;
-  margin-bottom: 0.75rem;
+.card img { /* General image styling within cards */
+  max-height: 150px;
+  width: auto; /* Maintain aspect ratio */
+  max-width: 100%; /* Prevent overflow */
+  object-fit: contain; /* Fit image nicely */
+  margin-left: auto; /* Center image if it's smaller than container */
+  margin-right: auto;
+}
+
+.card .card-content {
+    flex-grow: 1; /* Allow content to fill remaining space */
 }
 
 
-/* Session Contact */
-
-#contact .grid {
-  gap: 4rem;
+.card p.subtitle {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  line-height: 1.5;
 }
 
-#contact .text p {
-  margin-bottom: 2rem;
-  text-align: justify;
+/* Specific image adjustments for card types */
+.resolucao img { /* Map images */
+  max-height: 120px; /* Adjust as needed */
 }
-
-#contact .button {
-  margin-top: 1.5rem;
+.resolucao1 img { /* About section image - already handled by #about .image img */
 }
-
-#contact .button i {
-  font-size: 1.5rem;
-  margin-right: 0.675rem;
-}
-
-#contact ul.grid {
-  gap: 1.5rem;
-}
-
-#contact ul li i {
-  color: var(--base-color);
-  font-size: 1.5rem;
-  margin-right: 0.625rem;
-}
-
-#contact .align_button {
-  text-align: center;
+.resolucao32 img { /* Org logos */
+  max-height: 80px; /* Smaller for logos */
 }
 
 
 /* Session Footer */
 
 footer {
-  background: var(--base-color);
+  background: var(--body-color);
+  color: var(--text-color);
+  padding: 3rem 0;
+  border-top: 2px solid var(--base-color);
 }
 
-footer .logo {
-  display: inline-block;
-  margin-bottom: 1.5rem;
+footer .container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 1.5rem;
+}
+
+footer .brand .logo {
+  font-size: 1.75rem;
+  margin-bottom: 0.5rem;
+}
+footer .brand .logo img { /* Footer logo image specific style */
+    width: 30px;
+    margin-right: 0.4rem;
 }
 
 footer .brand p {
-  color: var(--text-color-light);
-  margin-bottom: 0.75rem;
+  color: var(--text-color);
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
 }
 
-footer i {
-  font-size: 1.5rem;
-  color: var(--text-color-light);
+footer .social {
+    margin-top: 1rem; /* Add some space above social icons */
 }
 
 footer .social a {
-  margin-right: 2rem;
+  margin: 0 0.75rem;
+  transition: color 0.3s ease-in-out;
 }
 
-/* @Media */
-
-/* > 1200px extra large */
-/* > 1023 large */
-/* > 992 large */
-/* > 767 medium */
-
-@media (min-width: 992px) {
-  .title {
-    font-size: 2.25rem;
-  }
+footer .social i {
+  font-size: 1.75rem;
+  color: var(--text-color-light);
 }
 
-@media (min-width: 1200px) {
-  .section {
-    padding: 10rem 0;
-  }
+footer .social a:hover i {
+  color: var(--base-color);
+}
 
+/* @Media Queries */
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {
   .container {
-    max-width: 1120px;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 540px;
+  }
+   .cards.grid { /* For sections with multiple cards */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive cards */
+  }
+}
+
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+  .container {
+    max-width: 720px;
+  }
+  :root {
+    --title-font-size: 2.25rem;
   }
 
-  .button { 
-     height: 3.125rem;
+  .section-title {
+      font-size: var(--title-font-size);
   }
 
-  nav .menu {
+  #home .container {
+      grid-template-columns: 1fr 1fr; /* Two columns for hero */
+      text-align: left;
+  }
+  #home .text {
+      order: -1; /* Text on the left */
+  }
+  #home .text h1, #home .text p, #home .ajusteBot {
+      text-align: left;
+      margin-left: 0;
+      margin-right: 0;
+  }
+   #home .ajusteBot {
+    text-align: left; /* Ensure button is aligned left in this layout */
+  }
+
+
+  #about .container {
+    grid-template-columns: 1fr 1fr;
+  }
+  #about .image {
+    order: -1; /* Image on the left */
+  }
+  #about .text .title {
+      text-align: left;
+  }
+
+
+  nav .menu { /* Desktop navigation */
     opacity: 1;
     visibility: visible;
-    top: 0;
+    position: static;
+    height: auto;
+    width: auto;
+    background: none;
+    margin-left: auto; /* Push nav links to the right */
   }
 
   nav .menu ul {
     display: flex;
-    gap: 2rem;
+    flex-direction: row; /* Horizontal links */
+    gap: 1rem; /* Adjust nav link gap */
   }
 
-  nav .menu ul a.title {
-    font: 400 1rem var(--title-font);
+  nav ul li a.title { /* Styles for nav links on desktop */
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--text-color-light);
+  }
+   nav ul li a::after {
+    bottom: 0.2rem; /* Adjust underline for desktop */
   }
 
-  nav .icon-menu {
+  nav .toggle { /* Hide mobile menu toggle */
     display: none;
   }
+}
 
-  #home .image {
-    order: 1;
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+  .container {
+    max-width: 960px;
+  }
+   :root {
+    --title-font-size: 2.5rem;
+    --subtitle-font-size: 1.1rem;
+  }
+  .section {
+    padding: 5rem 0;
   }
 
-  #home .text {
-    order: 0;
-    max-width: 24rem;
-    text-align: left;
+  /* Cards grid for 3 columns on large screens */
+  #jogadores .cards.grid,
+  #mapas .cards.grid,
+  #orgs .cards.grid {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   #home .container {
-    grid-auto-flow: column;
+     gap: 3rem;
+  }
+  #home .text h1 {
+    font-size: 2.75rem;
+  }
+
+  #about .container {
+     gap: 4rem;
+  }
+
+  footer .container {
+    flex-direction: row;
     justify-content: space-between;
-    margin: 0 auto;
+    text-align: left;
   }
-
- #about .container {
-   grid-auto-flow: column;
-   margin: 0 auto;
- }
-
- .section header {
-   max-width: 32rem;
-   text-align: center;
-   margin-left: auto;
-   margin-right: auto;
- }
-
- .cards {
-   grid-template-columns: 1fr 1fr 1fr;
- }
-
- .card {
-  padding-left: 3rem;
-  padding-right: 3rem;
+  footer .brand {
+    text-align: left;
+  }
+  footer .social {
+      margin-top: 0; /* Reset margin for row layout */
+  }
 }
 
-#contact .container {
-  grid-auto-flow: column;
-  align-items: center;
-  justify-content: space-between;
-}
-
-#contact .text {
-  max-width: 25rem;
-}
-
-#contact .align_button {
-  text-align: left;
-}
-
-footer .container {
-  grid-auto-flow: column;
-  align-items: center;
-  justify-content: space-between;
-}
-
-footer.section {
-  padding: 3.75rem 0;
-}
-
-footer .logo {
-  font-size: 2.5rem;
-}
-
-
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1140px;
+  }
   :root {
-    --title-font-size: 2.25rem;
-    --subtitle-font-size: 1.125rem;
+    --header-height: 5rem; /* Slightly taller header */
+  }
+   main {
+    margin-top: var(--header-height);
+  }
+  nav .menu ul {
+    gap: 1.5rem; /* More space between nav items */
   }
 }
-.resolucao{
-  width: 25rem;
-}
-.resolucao1 {
-  width: 29rem;
-  
-}
-.resolucaologo{
-  
-  width: 4rem;
-}
-.ajuste{
-  margin-right: 5%;
-}
-.subtitle{
-  margin-right: 5%;
-}
-.resolucao32{
-  width: 10rem;
-margin-left: 30%;
 
+/* Utility classes (optional) */
+.text-center {
+    text-align: center;
+}
+.text-left {
+    text-align: left;
+}
+.text-justify {
+    text-align: justify;
 }
 
-/* https://developer.mozilla.org/en-US/docs/Web/CSS/position */
+/* Fix for logo and nav items alignment in header */
+.ajuste { /* This class was on the ValorantZONE text */
+  font-size: 1.75rem; /* Match .logo font size */
+  font-weight: 700; /* Match .logo font weight */
+  font-family: var(--title-font);
+  color: var(--title-color);
+}
+.ajuste span {
+  color: var(--base-color);
+}
+
+.resolucaologo { /* This was the div wrapping the logo image */
+    /* No specific styles needed if img tag is directly inside .logo or .nav-left */
+    /* Ensure it doesn't add unwanted margins/paddings */
+    margin:0;
+    padding:0;
+    display: inline-flex; /* Or flex, depending on parent */
+    align-items: center;
+}
+
+/* Ensure subtitle class doesn't have conflicting right margin from original CSS */
+.subtitle {
+  margin-right: 0;
+}
+/* Remove margin from old .ajusteBot if it's causing issues with centering */
+#home .ajusteBot{
+  margin-left: auto;
+  margin-right: auto;
+}
+@media (min-width: 768px) {
+    #home .ajusteBot {
+        margin-left: 0; /* Align left for desktop hero */
+        margin-right: 0;
+    }
+}
+
+/* Ensure card images behave */
+.card .resolucao, .card .resolucao1, .card .resolucao32 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+    overflow: hidden; /* Prevent image overflow if not perfectly sized */
+}
+
+.card .resolucao img, .card .resolucao1 img, .card .resolucao32 img {
+    /* Styles already defined in .card img, these are overrides if necessary */
+    /* e.g., if specific aspect ratios are needed */
+}
